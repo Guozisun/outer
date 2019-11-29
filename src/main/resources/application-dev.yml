@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/outer?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: 123456
+    tomcat:
+      initSQL: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 100   #初始化时建立物理连接的个数
+      min-idle: 100       #最小连接池数量
+      max-active: 100   #最大连接池数量 maxIdle已经不再使用
+      max-wait: 60000   #获取连接时最大等待时间，单位毫秒
+      time-between-eviction-runs-millis: 60000  #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      min-evictable-idle-time-millis: 300000   #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      validation-query: SELECT 'x'
+      test-while-idle: true  #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-on-borrow: false  #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false  #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+     # exception-sorter: true #当数据库抛出不可恢复的异常时,抛弃该连接
+      pool-prepared-statements: false  #是否缓存preparedStatement,mysql5.5+建议开启
+      max-pool-prepared-statement-per-connection-size: 20  #当值大于0时poolPreparedStatements会自动修改为true
+      #配置扩展插件
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=2000   #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      use-global-data-source-stat: true #合并多个DruidDataSource的监控数据
+      #设置访问druid监控页的账号和密码,默认没有   http://localhost:8080/druid/api.html
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        session-stat-max-count: 1000
+        session-stat-enable: true
+        profile-enable: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: "/druid/*"
+        login-username: outeradmin
+        login-password: YtuD7gdZVmUQ
+        allow: 127.0.0.1
+        reset-enable: true
+
+#加密盐值
+secretsalt:
+  salt: a85ed46ab690448a8c4e21cfb9bfdf95
+
+bmt:
+  url: http://172.16.5.132:9235/zyzx/szb/getBmList
+menu:
+  url: http://172.16.5.132:9235/zyzx/szb/findBmMenu
+formal:
+  url: http://172.16.5.132:9235/zyzx/szb/getBmDetail

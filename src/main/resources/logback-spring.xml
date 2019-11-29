@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!-- 	<include resource="org/springframework/boot/logging/logback/base.xml" /> -->
+	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+	<property name="LOCAL_HOME" value="D:/share/ce1/" />
+	<!--开发环境  -->
+	 <property name="DEV_HOME" value="/home/MLF/TRS/tmyimgcenter/logs/" />
+	<!-- 测试环境 -->
+	 <property name="TEST_LOG_HOME" value="/home/MLF/mtypvs/logs/" />
+	<!--预发布环境  -->
+	<property name="PRE_LOG_HOME" value="/home/TmyPre/mtypvs/logs/" />
+	<property name="PROD_LOG_HOME" value="../logs/" />
+	<!-- encoder 默认配置为PatternLayoutEncoder -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -%msg%n</pattern>
+		</encoder>
+	</appender>
+	<!--本地开发环境  -->
+	<springProfile name="local">
+		<appender name="log"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${LOCAL_HOME}/mtypvs.%d{yyyy-MM-dd}.log
+				</FileNamePattern>
+				<!--日志文件保留天数 -->
+				<maxHistory>15</maxHistory>
+				<totalSizeCap>2GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}- %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小 -->
+			<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+	</springProfile>
+	<!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+	<springProfile name="dev">
+		<appender name="log"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${DEV_HOME}/mtypvs.%d{yyyy-MM-dd}.log
+				</FileNamePattern>
+				<!--日志文件保留天数 -->
+				<maxHistory>15</maxHistory>
+				<totalSizeCap>2GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}- %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小 -->
+			<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+	</springProfile>
+	<!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+	<springProfile name="test">
+		<appender name="log"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${TEST_LOG_HOME}/mtypvs.%d{yyyy-MM-dd}.log
+				</FileNamePattern>
+				<!--日志文件保留天数 -->
+				<maxHistory>15</maxHistory>
+				<totalSizeCap>2GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}- %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小 -->
+			<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+	</springProfile>
+	<!-- 预发布环境  -->
+	<springProfile name="pre">
+		<appender name="log"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${PRE_LOG_HOME}/mtypvs.%d{yyyy-MM-dd}.log
+				</FileNamePattern>
+				<!--日志文件保留天数 -->
+				<maxHistory>15</maxHistory>
+				<totalSizeCap>2GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}- %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小 -->
+			<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+	</springProfile>
+	<!-- 生产环境  -->
+	<springProfile name="prod">
+		<appender name="log"
+			class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名 -->
+				<FileNamePattern>${PROD_LOG_HOME}/outerLog.%d{yyyy-MM-dd}.log
+				</FileNamePattern>
+				<!--日志文件保留天数 -->
+				<maxHistory>15</maxHistory>
+				<totalSizeCap>2GB</totalSizeCap>
+			</rollingPolicy>
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}- %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小 -->
+			<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+	</springProfile>
+	<root level="ERROR">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="log" />
+	</root>
+</configuration> 
